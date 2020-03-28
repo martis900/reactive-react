@@ -1,13 +1,18 @@
-import { watchComponent } from './'
+// @ts-nocheck
 
 export default function withSynapse(ReactComponent: any) {
-    const React = window.framework // @ts-ignore
+    const React = globalThis.framework // @ts-ignore
+    const Synapse = globalThis.Synapse // @ts-ignore
     return class extends React.Component {
         constructor(props: any) {
             super(props)
-            watchComponent(this)
+            Synapse.subs.registerComponent(this)
         }
-        
+
+        componentDidMount() {
+            Synapse.subs.mount(this)
+        }
+
         render() {
             return React.createElement(
                 ReactComponent

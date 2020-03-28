@@ -1,4 +1,5 @@
 "use strict";
+// @ts-nocheck
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -13,16 +14,22 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var _1 = require("./");
 function withSynapse(ReactComponent) {
-    var React = window.framework; // @ts-ignore
+    var React = globalThis.framework; // @ts-ignore
+    var Synapse = globalThis.Synapse; // @ts-ignore
     return /** @class */ (function (_super) {
         __extends(class_1, _super);
         function class_1(props) {
             var _this = _super.call(this, props) || this;
-            _1.watchComponent(_this);
+            Synapse.subs.registerComponent(_this);
             return _this;
         }
+        class_1.prototype.componentDidMount = function () {
+            Synapse.subs.mount(this);
+        };
+        // componentWillUnmount(): void {
+        //     Synapse.subs.untrack(this)
+        // }
         class_1.prototype.render = function () {
             return React.createElement(ReactComponent);
         };
